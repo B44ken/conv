@@ -8,8 +8,11 @@ export class Unit {
             this.name = derived
         }
         else {
+	    console.log('derived before: ', derived)
+	    derived = Object.assign(units._, derived)
+	    console.log('derived after: ', derived)
             this.derived = derived
-            this.name = reverseUnit(derived)
+            this.name = reverseUnit()
         }
     }
 
@@ -39,7 +42,7 @@ export class Unit {
     }
 
     rename() {
-        this.name = 'unit name'
+        this.name = 'unit name'	
     }
 
     multiply(newUnit) {
