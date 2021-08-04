@@ -8,11 +8,9 @@ export class Unit {
             this.name = derived
         }
         else {
-	    console.log('derived before: ', derived)
-	    derived = Object.assign(units._, derived)
-	    console.log('derived after: ', derived)
+	        var derived = Object.assign(units._, derived)
             this.derived = derived
-            this.name = reverseUnit()
+            this.name = reverseUnit(this.derived)
         }
     }
 
@@ -46,9 +44,9 @@ export class Unit {
     }
 
     multiply(newUnit) {
-        var product = new Unit(1, newUnit.units)
-        for(var u in this.units) {
-            product.units[u] += this.units[u]
+        var product = new Unit(this.number * newUnit.number, units._)
+        for(var u in units._) {
+            product.derived[u] = this.derived[u] + newUnit.derived[u]
         }
         return product
     }
@@ -57,7 +55,6 @@ export class Unit {
         var quot = new Unit(this.number * newUnit.number, this.derived)
         for(var base of Object.keys(newUnit.derived))
             quot.derived[base] += newUnit.derived[base]
-        this.rename()
         return quot
     }
 }

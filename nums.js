@@ -20,6 +20,7 @@ export const prefixes = {
 	zepto: 1e-21,
 	yocto: 1e-24,
 }
+// the base unit so we don't have to keep recording zeroes 
 const  _ = { m: 0, s: 0, mole: 0, A: 0, K: 0, cd: 0, kg: 0 }
 export const units = {
 	_,
@@ -33,17 +34,20 @@ export const units = {
 	pascal: { ..._, kg: 1, m: -1, s: -2 },
 }
 
+
+// take a derivation like { m: 1 } and turn it into a unit name like 'meter'
 export const reverseUnit = (derived) => {
-	console.log(derived)
+	// loop through existing names (meter, volt, etc.)
 	for(var u in units) {
-		if(JSON.stringify(units[u]) == JSON.stringify(derived)) {
-			console.log(u, JSON.stringify(units[u]), JSON.stringify(derived))
+		if(JSON.stringify(units[u]) == JSON.stringify(derived) && u != '_') {
 			return u
 		}
 	}	
+	// if not, make a derived name like m/s = (m^1 s^1)
 	var derivedName = ''
-	console.log('found none')
+	for(u in derived) {
+		if (derived[u] == 0) continue
+		derivedName += u + '^' + derived[u] + ' '
+	}
 	return derivedName.trim()
 }
-
-export var variables = {}
