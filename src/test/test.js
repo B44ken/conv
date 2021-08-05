@@ -1,3 +1,6 @@
+// rough manually checked test
+// todo: automate?
+
 import { Unit } from '../unit.js'
 window.Unit = Unit
 
