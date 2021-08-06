@@ -1,8 +1,9 @@
 import { Unit } from './unit.js'
-import { Calculator } from './calc.js'
+import { Calculator, CalcError } from './calc.js'
 
 window.Unit = Unit
 window.Calculator = Calculator
+window.CalcError = CalcError
 
 var calc = new Calculator()
 
@@ -12,5 +13,14 @@ const output = document.querySelector('.output')
 output.textContent = calc.doLine(input.textContent)
 
 document.addEventListener('keyup', () => {
-    output.textContent = calc.doLine(input.textContent)
+    
+    try {
+        var res = calc.doLine(input.textContent)
+        output.textContent = res
+    } catch(error) {
+        if(error.name != "CalcError")
+            console.error(error)
+        output.textContent = 'error: ' + error.message
+    }
+    
 })

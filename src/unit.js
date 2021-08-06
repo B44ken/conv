@@ -82,4 +82,13 @@ export class Unit {
         }
         return null
     }
+    add(newUnit) {
+        var derived1 = JSON.stringify(this.derived)
+        var derived2 = JSON.stringify(newUnit.derived)
+        if(derived1 == derived2) {
+            newUnit.number = this.number - newUnit.number
+            return newUnit
+        }
+        return null
+    }
 }
