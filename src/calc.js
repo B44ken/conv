@@ -69,7 +69,6 @@ export class Calculator {
     
     // evaluate a simple expression like a + b which can be recursively applied for longer expressions: ((a + b) - c)
     evaluateTwo(tokens) {
-        // todo: full recursive computation
         if(tokens.length == 3) {
             if(tokens[1] == '*')
                 var res = tokens[0].multiply(tokens[2])
