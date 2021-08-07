@@ -4,7 +4,7 @@ body {
 	margin: 0;
 	background: #131621;
 	font-family: monospace;
-	font-size: 24px;
+	font-size: 3;
 	color: white;
 }
 
@@ -14,8 +14,9 @@ body {
 
 .container {
 	padding-top: 30vh;
-	padding-left: 25vw;
+	margin: 0 auto;
 	width: 50vw;
+	min-width: 400px;
 }
 
 .input {
@@ -25,4 +26,11 @@ body {
 }
 .input:focus {
 	outline: none
+}
+
+
+@media (max-width: 540px) {
+	body {
+		font-size: 18px;
+	}
 }

@@ -28,10 +28,12 @@ export const units = {
 	meter: { ..._, m: 1},
 	second: { ..._, s: 1 },
 	amp: { ..._, A: 1 },
+	hertz: { ..._, s: -1 },
 	watt: { ..._, kg: 1, m: 2, s:  -3 },
 	volt: { ..._, m: 2, s: -3, kg: 1, A: -1 },
 	newton: { ..._, kg: 1, m: 1, s: -2 },
 	pascal: { ..._, kg: 1, m: -1, s: -2 },
+	joule: { ..._, kg: 1, m: 2, s: -2 }
 }
 
 

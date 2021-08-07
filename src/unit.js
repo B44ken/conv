@@ -53,7 +53,7 @@ export class Unit {
     }
 
     print() {
-        return this.number + ' ' + this.unitName()
+        return this.number + ' ' + reverseUnit(this.derived)
     }
 
     multiply(newUnit) {
@@ -82,7 +82,7 @@ export class Unit {
         }
         return null
     }
-    add(newUnit) {
+    subtract(newUnit) {
         var derived1 = JSON.stringify(this.derived)
         var derived2 = JSON.stringify(newUnit.derived)
         if(derived1 == derived2) {

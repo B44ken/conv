@@ -9,7 +9,6 @@ export class CalcError extends Error {
     }
 }
 
-// todo: rearrange for order of operations
 export class Calculator {
     constructor(vars) {
         this.vars = vars || {}
@@ -19,8 +18,10 @@ export class Calculator {
     doLine(exp) {
         exp = this.tokenize(exp)
         exp = this.parse(exp)
-        exp = this.evaluate(exp)
-        return exp
+        for(const o of operations) {
+             exp = this.evaluate(exp, o)
+        }
+        return this.print(exp)
     }
 
     tokenize(line) {
@@ -48,27 +49,22 @@ export class Calculator {
         return tokens
     }
 
-    evaluate(tokens) {
+    evaluate(tokens, op) {
         // console.log(tokens)
-        var res = ''
-        for(const o of operations) {
-            // console.log(`searching for ${o}${'\n'}`)
             for(var t in tokens) {
                 t = Number(t)
                 const tt = tokens[t]
-                if(tt == o) {
-                    tokens = tokens.filter(e => e != "")
-                    console.log(tokens, t)
+                if(tt == op) {
                     var evaled = this.evaluateTwo([ tokens[t-1], tokens[t], tokens[t+1] ])
                     tokens[t-1] = ""
                     tokens[t] = evaled
                     tokens[t+1] = ""
+                    tokens = tokens.filter(e => e != "")
                     console.log(tokens)
                 }
                 // if(tt == o) console.log(`found at index ${t} of ${tokens.length - 2} ${(tokens.length - 2) == t}\n`)
             }
-        }
-        return tokens[0]
+        return tokens
     }
     
     // evaluate a simple expression like a + b which can be recursively applied for longer expressions: ((a + b) - c)
@@ -77,19 +73,25 @@ export class Calculator {
         if(tokens.length == 3) {
             if(tokens[1] == '*')
                 var res = tokens[0].multiply(tokens[2])
-            if(res) return res
-            if(tokens[1] == '/')
+            else if(tokens[1] == '/')
                 var res = tokens[0].divide(tokens[2])
-            if(tokens[1] == '+') {
+            else if(tokens[1] == '+') {
                 var res = tokens[0].add(tokens[2])
-                if(!res) return 'error: different units, can\'t add/subtract'
+                if(!res) throw new CalcError('error: different units, can\'t add/subtract')
             }
-            if(tokens[1] == '-') {
+            else if(tokens[1] == '-') {
                 var res = tokens[0].subtract(tokens[2])
-                if(!res) return 'error: different units, can\'t add/subtract'
+                if(!res) throw new CalcError('error: different units, can\'t add/subtract')
             }
-            if(res) return res
+            else if(tokens[1] == '^')
+                var res = tokens[0].exponent(tokens[2])
+
+            if(!res) throw new CalcError('result is null')
+            return res
         }
-        return '? (only computes a *|/ b for now)'
+    }
+
+    print(result) {
+        return result[0].print()
     }
 }
