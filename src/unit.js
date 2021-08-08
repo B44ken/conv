@@ -1,6 +1,6 @@
-import { prefixes, units, reverseUnit } from './nums.js'
+import { prefixes, units, reverseFactor } from './nums.js'
 
-export class Unit {
+export class Factor {
     constructor(number=1, derived={ ...units._ }) {
         this.number = number
         if (typeof derived == "string") {
@@ -15,7 +15,7 @@ export class Unit {
     }
 
     static fromString(str) {
-        var unit = new Unit()
+        var unit = new Factor()
 		
 		// build a regex to find any string like "100 milliamp"
         var p = Object.keys(prefixes)
@@ -28,8 +28,8 @@ export class Unit {
             if(isNaN(num)) 
                 return null
             if(str == '')
-                return new Unit() 
-            return new Unit(num)
+                return new Factor() 
+            return new Factor(num)
 
         }
 
@@ -38,11 +38,11 @@ export class Unit {
                 unit.number = Number(part)
             }
             else if(p.includes(part)) {
-                var x = new Unit(prefixes[part])
+                var x = new Factor(prefixes[part])
                 unit = unit.multiply(x)
             }
             else if(u.includes(part)) {
-                unit = new Unit(unit.number, units[part])
+                unit = new Factor(unit.number, units[part])
             }
         }
 
@@ -50,45 +50,45 @@ export class Unit {
     }
 
     unitName() {
-        return reverseUnit(this.derived)
+        return reverseFactor(this.derived)
     }
 
     print() {
-        return this.number + ' ' + reverseUnit(this.derived)
+        return this.number + ' ' + reverseFactor(this.derived)
     }
 
-    multiply(newUnit) {
-        var num = this.number * newUnit.number
+    multiply(newFactor) {
+        var num = this.number * newFactor.number
         var derived = { ...units._ }
-        var product = new Unit(num, derived)
+        var product = new Factor(num, derived)
         for(var u in { ...units._ }) {
-            product.derived[u] = this.derived[u] + newUnit.derived[u]
+            product.derived[u] = this.derived[u] + newFactor.derived[u]
         }
         return product
     }
 
-    divide(newUnit) {   
-        var quot = new Unit(this.number / newUnit.number, this.derived)
-        for(var base of Object.keys(newUnit.derived))
-            quot.derived[base] -= newUnit.derived[base]
+    divide(newFactor) {   
+        var quot = new Factor(this.number / newFactor.number, this.derived)
+        for(var base of Object.keys(newFactor.derived))
+            quot.derived[base] -= newFactor.derived[base]
         return quot
     }
 
-    add(newUnit) {
+    add(newFactor) {
         var derived1 = JSON.stringify(this.derived)
-        var derived2 = JSON.stringify(newUnit.derived)
+        var derived2 = JSON.stringify(newFactor.derived)
         if(derived1 == derived2) {
-            newUnit.number += this.number
-            return newUnit
+            newFactor.number += this.number
+            return newFactor
         }
         return null
     }
-    subtract(newUnit) {
+    subtract(newFactor) {
         var derived1 = JSON.stringify(this.derived)
-        var derived2 = JSON.stringify(newUnit.derived)
+        var derived2 = JSON.stringify(newFactor.derived)
         if(derived1 == derived2) {
-            newUnit.number = this.number - newUnit.number
-            return newUnit
+            newFactor.number = this.number - newFactor.number
+            return newFactor
         }
         return null
     }

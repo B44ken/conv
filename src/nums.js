@@ -1,4 +1,4 @@
-export const prefixes = { 
+	export const prefixes = { 
 	yotta: 1e+24,
 	zetta: 1e+21,
 	exa: 1000000000000000000,
@@ -38,7 +38,7 @@ export const units = {
 
 
 // take a derivation like { m: 1 } and turn it into a unit name like 'meter'
-export const reverseUnit = (derived) => {
+export const reverseFactor = (derived) => {
 	// loop through existing names (meter, volt, etc.)
 	for(var u in units) {
 		if(JSON.stringify(units[u]) == JSON.stringify(derived) && u != '_') {

@@ -1,7 +1,7 @@
-import { Unit } from './unit.js'
+import { Factor } from './unit.js'
 import { Calculator, CalcError } from './calc.js'
 
-window.Unit = Unit
+window.Factor = Factor
 window.Calculator = Calculator
 window.CalcError = CalcError
 

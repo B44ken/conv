@@ -1,4 +1,4 @@
-import { Unit } from './unit.js'
+import { Factor } from './unit.js'
 
 const operations = ["^", "*", "/", "-", "+"]
 
@@ -42,9 +42,9 @@ export class Calculator {
             if(operations.includes(tt))
                 continue
             else if(this.vars[tt]) 
-                tokens[t] = Unit.fromString(this.vars[tt])                
+                tokens[t] = Factor.fromString(this.vars[tt])                
             else
-                tokens[t] = Unit.fromString(tt)
+                tokens[t] = Factor.fromString(tt)
         }
         return tokens
     }
