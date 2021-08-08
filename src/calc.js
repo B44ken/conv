@@ -50,7 +50,6 @@ export class Calculator {
     }
 
     evaluate(tokens, op) {
-        // console.log(tokens)
             for(var t in tokens) {
                 t = Number(t)
                 const tt = tokens[t]
@@ -60,9 +59,7 @@ export class Calculator {
                     tokens[t] = evaled
                     tokens[t+1] = ""
                     tokens = tokens.filter(e => e != "")
-                    console.log(tokens)
                 }
-                // if(tt == o) console.log(`found at index ${t} of ${tokens.length - 2} ${(tokens.length - 2) == t}\n`)
             }
         return tokens
     }
