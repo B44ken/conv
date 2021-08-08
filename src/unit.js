@@ -16,7 +16,8 @@ export class Unit {
 
     static fromString(str) {
         var unit = new Unit()
-
+		
+		// build a regex to find any string like "100 milliamp"
         var p = Object.keys(prefixes)
         var u = Object.keys(units)
         const regex = RegExp(`([0-9\.]+)? ?(?:(${p.join('|')})?((${u.join('|')})s?))`)
