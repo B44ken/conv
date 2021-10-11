@@ -12,14 +12,18 @@ export class CalcError extends Error {
 export class Calculator {
     constructor(vars) {
         this.vars = vars || {}
-        this.vars.g = 9.81
+        this.vars.g = new Factor(9.81, { m: 1, s: -2 })
     }
 
     doLine(exp) {
         exp = this.tokenize(exp)
         exp = this.parse(exp)
-        for(const o of operations) {
-             exp = this.evaluate(exp, o)
+        for(var o of operations) {
+            while(exp.includes(o))
+                exp = this.evaluate(exp, o)
+        }
+        if(this.vars.precision) {
+            exp.number = Math.round(exp.number * this.vars.precision) / this.vars.precision
         }
         return this.print(exp)
     }
@@ -42,7 +46,7 @@ export class Calculator {
             if(operations.includes(tt))
                 continue
             else if(this.vars[tt]) 
-                tokens[t] = Factor.fromString(this.vars[tt])                
+                tokens[t] = this.vars[tt]                
             else
                 tokens[t] = Factor.fromString(tt)
         }
@@ -50,7 +54,7 @@ export class Calculator {
     }
 
     evaluate(tokens, op) {
-            for(var t in tokens) {
+        for(var t in tokens) {
                 t = Number(t)
                 const tt = tokens[t]
                 if(tt == op) {
