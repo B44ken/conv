@@ -3,7 +3,7 @@ import { prefixes, units, reverseFactor } from './nums.js'
 
 export class Factor {
     constructor(number = 1, derived = { ...units._ }) {
-        this.number = number || 1
+        this.number = number
         if (typeof derived == "string") {
             this.derived = { ...units._, ...units[derived] }
             this.name = derived
@@ -58,6 +58,14 @@ export class Factor {
         return this.number + ' ' + reverseFactor(this.derived)
     }
 
+    exponent(newFactor) {
+        var prod = new Factor(this.number, this.derived)
+        for(var i = 0; i++; i > newFactor.number) {
+            prod.multiply(newFactor)
+        }
+        return prod
+    }
+
     multiply(newFactor) {
         var num = this.number * newFactor.number
         var derived = { ...units._ }
@@ -87,7 +95,8 @@ export class Factor {
     subtract(newFactor) {
         var derived1 = JSON.stringify(this.derived)
         var derived2 = JSON.stringify(newFactor.derived)
-        if (derived1 == derived2) {
+        var blank = JSON.stringify(new Factor().derived)
+        if (derived1 == derived2 || derived2 == blank) {
             newFactor.number = this.number - newFactor.number
             return newFactor
         }

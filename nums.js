@@ -21,8 +21,7 @@ export const prefixes = {
 	yocto: 1e-24,
 }
 
-
-const unit = (derived) => {
+const unit = (derived, scale = 1) => {
 	var unitObject = { ..._ }
 	for (const part of derived.split(" ")) {
 		var [name, amount] = part.split('^')
@@ -47,7 +46,10 @@ export const units = {
 	newton: unit('kg m s^-2'),
 	pascal: unit('kg m^-1 s^-2'),
 	joule: unit('kg m^2 s^-2'),
-	coulomb: unit('A s^-1')
+	coulomb: unit('A s^-1'),
+	// mile: unit('m', 1609.34),
+	// minute: unit('s', 60),
+	// hour: unit('s', 3600)
 }
 
 
