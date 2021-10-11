@@ -33,13 +33,15 @@ const unit = (derived, scale = 1) => {
 }
 
 // the base unit so we don't have to keep recording zeroes 
-const _ = { m: 0, s: 0, mole: 0, A: 0, K: 0, cd: 0, kg: 0 }
+const _ = { m: 0, s: 0, mol: 0, A: 0, K: 0, cd: 0, kg: 0 }
 export const units = {
 	_,
 	gram: unit('g'),
 	meter: unit('m'),
 	second: unit('s'),
 	amp: unit('A'),
+	kelvin: unit('K'),
+	mole: unit('mol'),
 	hertz: unit('s^-1'),
 	watt: unit('kg m^2 s^-3'),
 	volt: unit('m^2 s^-3 kg A^1'),
