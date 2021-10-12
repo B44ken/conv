@@ -44,7 +44,7 @@ export const units = {
 	mole: unit('mol'),
 	hertz: unit('s^-1'),
 	watt: unit('kg m^2 s^-3'),
-	volt: unit('m^2 s^-3 kg A^1'),
+	volt: unit('m^2 s^-3 kg A^-1'),
 	newton: unit('kg m s^-2'),
 	pascal: unit('kg m^-1 s^-2'),
 	joule: unit('kg m^2 s^-2'),
