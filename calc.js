@@ -22,9 +22,6 @@ export class Calculator {
             while(exp.includes(o))
                 exp = this.evaluate(exp, o)
         }
-        if(this.vars.precision) {
-            exp.number = Math.round(exp.number * this.vars.precision) / this.vars.precision
-        }
         return this.print(exp)
     }
 
@@ -53,6 +50,8 @@ export class Calculator {
         return tokens
     }
 
+    // go through PEMDAS and evaluate in order
+    // bug: division/multiplication and subtraction/additon are done in 2 steps
     evaluate(tokens, op) {
         for(var t in tokens) {
                 t = Number(t)
@@ -65,6 +64,12 @@ export class Calculator {
                     tokens = tokens.filter(e => e != "")
                 }
             }
+
+        
+        if(this.vars.precision) {
+            // for(const t in tokens
+                // tokens[t].number = Math.round(tokens[t].number * this.vars.precision) / this.vars.precision
+        }
         return tokens
     }
     
@@ -92,6 +97,9 @@ export class Calculator {
     }
 
     print(result) {
+        if(typeof result[0] == "number") {
+            return String(result)
+        }
         return result[0].print()
     }
 }

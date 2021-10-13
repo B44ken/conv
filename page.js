@@ -8,7 +8,7 @@ window.CalcError = CalcError
 window.TEST = TEST
 
 
-var calc = new Calculator({
+window.calc = new Calculator({
     'precision': 1/0.0001
 })
 
@@ -18,10 +18,12 @@ const output = document.querySelector('.output')
 output.textContent = calc.doLine(input.textContent)
 
 document.addEventListener('keyup', () => {
-    
     try {
-        var res = calc.doLine(input.textContent)
-        output.textContent = res
+        var res = ""
+        for(const line of input.innerText.split('\n')) {
+            res += calc.doLine(line) + '<br>'
+        }
+        output.innerHTML = res
     } catch(error) {
         if(error.name != "CalcError")
             console.error(error)

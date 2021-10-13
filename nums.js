@@ -36,7 +36,7 @@ const unit = (derived, scale = 1) => {
 const _ = { m: 0, s: 0, mol: 0, A: 0, K: 0, cd: 0, kg: 0 }
 export const units = {
 	_,
-	gram: unit('g'),
+	gram: unit('kg', 0.001),
 	meter: unit('m'),
 	second: unit('s'),
 	amp: unit('A'),
@@ -49,9 +49,9 @@ export const units = {
 	pascal: unit('kg m^-1 s^-2'),
 	joule: unit('kg m^2 s^-2'),
 	coulomb: unit('A s^-1'),
-	// mile: unit('m', 1609.34),
-	// minute: unit('s', 60),
-	// hour: unit('s', 3600)
+	mile: unit('m', 1609.34),
+	minute: unit('s', 60),
+	hour: unit('s', 3600)
 }
 
 

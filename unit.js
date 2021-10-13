@@ -47,6 +47,10 @@ export class Factor {
             }
         }
 
+        if (unit.derived && isNaN(unit.num)) {
+            unit.num = 1
+        }
+
         return unit
     }
 
@@ -59,21 +63,17 @@ export class Factor {
     }
 
     exponent(newFactor) {
-        var prod = new Factor(this.number, this.derived)
-        for(var i = 0; i++; i > newFactor.number) {
-            prod.multiply(newFactor)
-        }
-        return prod
+        var exp = new Factor(this.number ** newFactor.number)
+        for(var u in exp.derived)
+            exp.derived[u] = this.derived[u] * newFactor.number
+        return exp
     }
 
     multiply(newFactor) {
-        var num = this.number * newFactor.number
-        var derived = { ...units._ }
-        var product = new Factor(num, derived)
-        for (var u in { ...units._ }) {
-            product.derived[u] = this.derived[u] + newFactor.derived[u]
-        }
-        return product
+        var prod = new Factor(this.number * newFactor.number)
+        for(var u in prod.derived)
+            prod.derived[u] = this.derived[u] + newFactor.derived[u]
+        return prod
     }
 
     divide(newFactor) {
