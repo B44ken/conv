@@ -20,35 +20,22 @@ export class Factor {
 
         // build a regex to find any string like "100 milliamp"
         var p = Object.keys(prefixes)
-        var u = Object.keys(units)
-        const regex = RegExp(`([0-9\.]+)? ?(?:(${p.join('|')})?((${u.join('|')})s?))`)
+        var u = Object.keys(units)  
+        const regex = RegExp(`([0-9\.]+)? ?(?:(${p.join('|')})?((${u.join('|')})s?)?)`)
         var exec = regex.exec(str)
 
-        if (exec == null) {
-            var num = Number(str)
-            if (isNaN(num))
-                throw new CalcError('could not derive: ' + str)
-            if (str == '')
-                return new Factor()
-            return new Factor(num)
+        if (!exec) throw new CalcError("could not derive: " + str)
 
-        }
+        unit.number = Number(exec[1]) || 1
+        var unitName = exec[3]
+        if(exec[2]) unit.number = unit.number * prefixes[exec[2]]
 
-        for (const part of exec) {
-            if (part == exec[1]) {
-                unit.number = Number(part)
-            }
-            else if (p.includes(part)) {
-                var x = new Factor(prefixes[part])
-                unit = unit.multiply(x)
-            }
-            else if (u.includes(part)) {
-                unit = new Factor(unit.number, units[part])
-            }
-        }
-
-        if (unit.derived && isNaN(unit.num)) {
-            unit.num = 1
+        
+        if(unitName) {
+            if(!units[unitName])
+                throw new CalcError("unknown unit: " + unitName)
+            unit.number *= units[unitName][0]
+            unit.derived = units[unitName][1]
         }
 
         return unit
