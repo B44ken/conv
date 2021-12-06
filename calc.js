@@ -54,21 +54,15 @@ export class Calculator {
     // bug: division/multiplication and subtraction/additon are done in 2 steps
     evaluate(tokens, op) {
         for(var t in tokens) {
-                t = Number(t)
-                const tt = tokens[t]
-                if(tt == op) {
-                    var evaled = this.evaluateTwo([ tokens[t-1], tokens[t], tokens[t+1] ])
-                    tokens[t-1] = ""
-                    tokens[t] = evaled
-                    tokens[t+1] = ""
-                    tokens = tokens.filter(e => e != "")
-                }
+            t = Number(t)
+            const tt = tokens[t]
+            if(tt == op) {
+                var evaled = this.evaluateTwo([ tokens[t-1], tokens[t], tokens[t+1] ])
+                tokens[t-1] = ""
+                tokens[t] = evaled
+                tokens[t+1] = ""
+                tokens = tokens.filter(e => e != "")
             }
-
-        
-        if(this.vars.precision) {
-            // for(const t in tokens
-                // tokens[t].number = Math.round(tokens[t].number * this.vars.precision) / this.vars.precision
         }
         return tokens
     }
