@@ -1,6 +1,6 @@
 import { Factor } from './unit.js'
 
-const operations = ["^", "*", "/", "-", "+"]
+const operations = ["^", "*", "/", "-", "+", "to", "="]
 
 export class CalcError extends Error {
     constructor(message) {
@@ -13,15 +13,28 @@ export class Calculator {
     constructor(vars) {
         this.vars = vars || {}
         this.vars.g = new Factor(9.81, { m: 1, s: -2 })
+        this.vars.pi = new Factor(3.1415)
     }
 
     doLine(exp) {
+        var equals = exp.split("=")
+        var variableName = ""
+        if(equals[1]) {
+            equals[0] = equals[0].trim()
+            equals[1] = equals[1].trim()
+            if(/[A-z]+/.test(equals[0]))
+                variableName = equals[0]
+            else throw new CalcError("invalid variable name")
+        }
+
+        exp = equals[equals.length - 1].trim()
         exp = this.tokenize(exp)
         exp = this.parse(exp)
         for(var o of operations) {
             while(exp.includes(o))
                 exp = this.evaluate(exp, o)
         }
+        if(variableName) this.vars[variableName] = exp[0]
         return this.print(exp)
     }
 
@@ -31,9 +44,9 @@ export class Calculator {
             line = line.replaceAll(char, ';' + char + ';')
         line = line.split(';').map(e => e.trim())
         if(line[line.length - 1] == "") 
-            throw new CalcError('last item is an operation')
+        throw new CalcError('last item is an operation')
         if(line[0] == "") 
-            throw new CalcError("first item is an operation")
+        throw new CalcError("first item is an operation")
         return line
     }
 
