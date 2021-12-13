@@ -19,9 +19,9 @@ export class Factor {
         var unit = new Factor()
 
         // build a regex to find any string like "100 milliamp"
-        var p = Object.keys(prefixes)
-        var u = Object.keys(units)  
-        const regex = RegExp(`([0-9\.]+)? ?(?:(${p.join('|')})?((${u.join('|')})s?)?)`)
+        var p = Object.keys(prefixes).join('|')
+        var u = Object.keys(units).join('|')
+        const regex = RegExp(`^([0-9\.]+)? ?(?:(${p})?((${u})s?)?)$`)
         var exec = regex.exec(str)
 
         if (!exec) throw new CalcError("could not derive: " + str)
