@@ -37,3 +37,5 @@ s.doTest('compounding units',       '1 newton / meter^2', '1 pascal')
 s.doTest('simple bedmas',           '2 + 4*2',            '10')
 
 s.summary()
+
+export const testSuite = s
