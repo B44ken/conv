@@ -1,6 +1,6 @@
 import { Factor } from './unit.js'
 
-const operations = ["^", "*", "/", "-", "+", "to", "="]
+const operations = ["^", "*", "/", "-", "+", " to ", "="]
 
 export class CalcError extends Error {
     constructor(message) {
