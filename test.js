@@ -1,3 +1,6 @@
+// test suite is automatically run
+// s.doTest(test case name, value to put into calculator, expected result)
+
 import { Calculator } from './calc.js' 
 
 class TestSuite {
@@ -19,6 +22,7 @@ class TestSuite {
     }
     summary() {
         var bad = this.results.filter(e => e.error != null)
+        if(bad.length == 0) { console.log("All tests passed!") }
         return console.table(bad)
     }
 }
