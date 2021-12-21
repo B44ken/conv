@@ -1,11 +1,11 @@
 import { Factor } from './unit.js'
 import { Calculator, CalcError } from './calc.js'
-import { TEST } from './test.js'
+import { testSuite } from './test.js'
 
 window.Factor = Factor
 window.Calculator = Calculator
 window.CalcError = CalcError
-window.TEST = TEST
+window.testSuite = testSuite
 
 
 window.calc = new Calculator({
@@ -29,5 +29,4 @@ document.addEventListener('keyup', () => {
             console.error(error)
         output.textContent = 'error: ' + error.message
     }
-    
 })
