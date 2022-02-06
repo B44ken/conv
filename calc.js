@@ -104,9 +104,9 @@ export class Calculator {
     }
 
     print(result) {
-        if(typeof result[0] == "number") {
-            return String(result)
-        }
+        // if(typeof result[0] == "number") {
+        //     return String(result)
+        // }
         return result[0].print()
     }
 }
