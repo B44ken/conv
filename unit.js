@@ -45,8 +45,10 @@ export class Factor {
         return reverseFactor(this.derived)
     }
 
-    print() {
-        return this.number + ' ' + reverseFactor(this.derived)
+    print(precision) {
+        // round and delete trailing zeros
+        var num = this.number.toFixed(5).replace(/0+$/, '').replace(/\.$/, '')
+        return num + ' ' + reverseFactor(this.derived)
     }
 
     exponent(newFactor) {
