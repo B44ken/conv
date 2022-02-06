@@ -62,7 +62,13 @@ export const units = {
 	"coulomb": [1, { ..._, "s": -1, "A": 1 }],
 	"kilogram": [1, { ..._, "kg": 1 }],
 	"bit": [1, { ..._, "b": 1 }],
+	"farad": [1, {..._, "kg": -1, "m": -2, "s": 2, "A": 2}],
+	"ohm": [1, {..._, "kg": 1, "m": 2, "s": -3, "A": -2}],
+	"bit": [1, { ..._, "b": 1 }],
 	"byte": [8, { ..._, "b": 1 }],
+
+	"m^3": [1, {..._, "m": 3}], // hack: decides m^3 is gallon if not
+	"liter": [0.001, {..._, "m": 3}],
 
 	// shorthands
 	"M": [1, { ..._, "m": 1 }], // meter/mega co5nflict
