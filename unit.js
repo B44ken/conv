@@ -2,7 +2,7 @@ import { CalcError } from './calc.js'
 import { prefixes, units, reverseFactor } from './nums.js'
 
 export class Factor {
-    constructor(number = 1, derived = { ...units._ }) {
+    constructor(number = 1, derived = { ...units._ }, precision = undefined) {
         this.number = number
         if (typeof derived == "string") {
             this.derived = { ...units._, ...units[derived] }
@@ -13,6 +13,8 @@ export class Factor {
             this.derived = derived
             this.name = this.unitName(this.derived)
         }
+
+        if (precision) this.precision = precision
     }
 
     static fromString(str) {
@@ -30,14 +32,17 @@ export class Factor {
         var unitName = exec[3]
         if(exec[2]) unit.number = unit.number * prefixes[exec[2]]
 
-        
+        // special case (hack?)
+        if(exec[2] && exec[2] == "M") 
+            return new Factor(unit.number / 1000000, {m: 1})
+
         if(unitName) {
             if(!units[unitName])
                 throw new CalcError("unknown unit: " + unitName)
             unit.number *= units[unitName][0]
             unit.derived = units[unitName][1]
         }
-
+        
         return unit
     }
 
@@ -79,7 +84,7 @@ export class Factor {
             newFactor.number += this.number
             return newFactor
         }
-        return null
+        return null 
     }
     subtract(newFactor) {
         var derived1 = JSON.stringify(this.derived)
@@ -90,5 +95,12 @@ export class Factor {
             return newFactor
         }
         return null
+    }
+
+    getPrecision() {
+        var num = this.number.toString()
+        var dec = num.indexOf('.')
+        if (dec < 0) return 0
+        return num.length - dec - 1
     }
 }
