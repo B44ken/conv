@@ -1,6 +1,7 @@
 import { Factor } from './unit.js'
 
-const operations = ["^", "*", "/", "-", "+", " to ", "="]
+// const operations = ["^", "*", "/", "-", "+", " to ", "="]
+const operations = ["(", ")", "^", "*", "/", "-", "+", " to ", "="]
 
 export class CalcError extends Error {
     constructor(message) {
@@ -30,6 +31,7 @@ export class Calculator {
         exp = equals[equals.length - 1].trim()
         exp = this.tokenize(exp)
         exp = this.parse(exp)
+        exp = this.bracketize(exp)
         for(var o of operations) {
             while(exp.includes(o))
                 exp = this.evaluate(exp, o)
@@ -61,6 +63,18 @@ export class Calculator {
                 tokens[t] = Factor.fromString(tt)
         }
         return tokens
+    }
+
+    // should finish this sooner rather than later
+    bracketize(tokens) {
+        // var open = tokens.indexOf("(")
+        // var close = tokens.lastIndexOf(")")
+        // if(open == -1 && close == -1) 
+        //     return tokens
+        // if(open == -1 || close == -1) 
+        //     return new CalcError("unmatched brackets")
+        // console.log("brackets: ", tokens.slice(open, close + 1))
+        return tokens   
     }
 
     // go through PEMDAS and evaluate in order
