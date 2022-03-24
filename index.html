@@ -10,8 +10,24 @@
 </head>
 <body>
     <div class="container">
-        <div contenteditable="true" class="input">3 * 3 </div> <br>  
-        <div class='output'></div>
+        <a href="#" class="settings-button">settings</a>
+        <a href="#" class="formulas-button">formulas</a>
+        <a href="#" class="close-button">close</a>
+        <a href="https://github.com/b44ken/conv">source code</a>
+        <div class="tab settings-tab">
+            <span>use proper sig figs: </span> <input type="checkbox" id="settings-proper"> <br>
+        </div>
+        <div class="tab formulas-tab">
+            <a href="?i = 500 milliamp:r = 10 ohm:v = i*r">ohm's law</a>
+            <a href="?m = 2 KG:a = 9.8 M/S^2:v = m*a">newton's law</a>
+            <a href="?a = 2m/s^2:v = m/s:t = 0.5s:d = 0.5*a*t^2+v*t">kinematic displacement</a>
+        </div>
+        <div class="tab close-tab"> </div>
+
+        <div class="calculator">
+            <div contenteditable="true" class="input">3 * 3</div> <br>  
+            <div class='output'></div>
+        </div>
     </div>
 </body>
 </html>
