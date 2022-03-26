@@ -32,9 +32,11 @@ export class Factor {
         var unitName = exec[3]
         if(exec[2]) unit.number = unit.number * prefixes[exec[2]]
 
-        // special case (hack?)
+        // corrections (hack?)
         if(exec[2] && exec[2] == "M") 
             return new Factor(unit.number / 1000000, {m: 1})
+        if(exec[2] && exec[2] == "K")
+            return new Factor(unit.number / 1000, {K: 1})
 
         if(unitName) {
             if(!units[unitName])
