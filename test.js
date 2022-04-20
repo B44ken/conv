@@ -12,27 +12,32 @@ class TestSuite {
         try {
             var result = this.calc.doLine(input).trim()
             if(result == expected) {
-                this.results.push({ name, input, expected, result, error: null })
+                this.results[name] = { input, expected, result, error: null }
             } else {
-                this.results.push({ name, input, expected, result, error: "Wrong" })
+                this.results[name] = { input, expected, result, error: "Wrong" }
             }
         } catch(error) {
-            this.results.push({ name, input, expected, result: null, error })
-        } finally {
-
+            this.results[name] = { input, expected, result: null, error }
         }
     }
     summary() {
-        var bad = this.results.filter(e => e.error != null)
-        if(bad.length == 0) { console.log("All tests passed!") }
-        return console.table(bad)
+        var bad = {}
+        for(const key of Object.keys(this.results)) {
+            const item = this.results[key]
+            if(item.error) bad[key] = item
+        }
+        
+        if(Object.keys(bad).length == 0) {
+            console.log("All tests OK!")
+        } else {
+            console.table(bad)
+        }
     }
 }
 
 var s = new TestSuite()
 
 // s.test('error on purpose',    'garbage',          '')
-// s.test('wrong on purpose',    '1',                '2')
 
 s.test('metric declaration',  '1 amp',            '1 amp')
 s.test('addition',            '1 + 1',            '2')
