@@ -28,7 +28,9 @@ export class Factor {
 
         if (!exec) throw new CalcError("could not derive: " + str)
 
-        unit.number = Number(exec[1]) || 1
+        unit.number = Number(exec[1])
+        if(isNaN(unit.number)) unit.number = 1
+
         var unitName = exec[3]
         if(exec[2]) unit.number = unit.number * prefixes[exec[2]]
 

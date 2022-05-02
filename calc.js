@@ -1,7 +1,7 @@
 import { Factor } from './unit.js'
 
 // const operations = ["^", "*", "/", "-", "+", " to ", "="]
-const operations = [["("], [")"], ["^"], ["*"], ["/"], ["-"], ["+"], [" to "], ["="]]
+const operations = [["(", ")"], ["^"], ["*", "/"], ["-"], ["+"], [" to "], ["="]]
 
 export class CalcError extends Error {
     constructor(message) {
@@ -32,16 +32,7 @@ export class Calculator {
         exp = this.tokenize(exp)
         exp = this.parse(exp)
         exp = this.bracketize(exp)
-        for(var step of operations) {
-            if(step.some(e => exp.includes(e))) {
-                for(var op of step) {
-                    if(exp.includes(op)) {
-                        exp = this.evaluate(exp, op)
-                        break
-                    }
-                }
-            }
-        }
+        exp = this.evaluate(exp)
         if(variableName) this.vars[variableName] = exp[0]
         return this.print(exp)
     }
@@ -51,11 +42,11 @@ export class Calculator {
         for(var char of splits)
             line = line.replaceAll(char, ';' + char + ';')
         line = line.split(';').map(e => e.trim())
-        if(line[line.length - 1] == "") 
-        throw new CalcError('last item is an operation')
-        if(line[0] == "") 
-        throw new CalcError("first item is an operation")
-        return line
+        if(line[line.length - 1] == "" && line[line.length - 2] != ")") 
+            throw new CalcError('last item is an operation')
+        if(line[0] == "" && line[1] != "(") 
+            throw new CalcError("first item is an operation")
+        return line.filter(e => e != '')
     }
 
     parse(tokens) {
@@ -73,19 +64,47 @@ export class Calculator {
 
     // should finish this sooner rather than later
     bracketize(tokens) {
-        // var open = tokens.indexOf("(")
-        // var close = tokens.lastIndexOf(")")
-        // if(open == -1 && close == -1) 
-        //     return tokens
-        // if(open == -1 || close == -1) 
-        //     return new CalcError("unmatched brackets")
-        // console.log("brackets: ", tokens.slice(open, close + 1))
-        return tokens   
+        while(tokens.includes('(')) {
+            var open = tokens.indexOf('(')
+            var close = tokens.indexOf(')')
+            var evaled = this.evaluate(tokens.slice(open + 1, close))
+            for(var i = open; i < close + 1; i++) {
+                delete tokens[i]
+            }
+            tokens[open] = evaled[0]
+            tokens = tokens.filter(e => e != null)
+            break
+        }
+        return tokens
+    }
+
+    evaluate(exp) {
+        var done = false
+        while(!done) {
+            done = true
+            for(var op of operations) {
+                for(var part of exp) {
+                    if(op.includes(part)) {
+                        // gross but 3 levels of loop is worse imo
+                        if(op[0] == part)
+                            exp = this.evaluateFirst(exp, op[0])
+                        else if(op[1] == part)
+                            exp = this.evaluateFirst(exp, op[1])
+                        else if(op[2] == part)
+                            exp = this.evaluateFirst(exp, op[0])
+
+                        done = false
+                        break
+                    }
+                }
+            }
+        }
+        return exp
     }
 
     // go through PEMDAS and evaluate in order
     // bug: division/multiplication and subtraction/additon are done in 2 steps
-    evaluate(tokens, op) {
+    evaluateFirst(tokens, op) {
         for(var t in tokens) {
             t = Number(t)
             const tt = tokens[t]
@@ -101,8 +120,9 @@ export class Calculator {
         return tokens
     }
     
-    // evaluate a simple expression like a + b which can be recursively applied for longer expressions: ((a + b) - c)
+    // evaluate a simple expression like a + b, can be recursively applied for longer expressions, ((a + b) - c)
     evaluateTwo(tokens) {
+        if(tokens.includes('(') || tokens.includes(')')) return
         if(tokens.length == 3) {
             if(tokens[1] == '*')
                 var res = tokens[0].multiply(tokens[2])
