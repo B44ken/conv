@@ -1,7 +1,7 @@
 import { Factor } from './unit.js'
 
 // const operations = ["^", "*", "/", "-", "+", " to ", "="]
-const operations = ["(", ")", "^", "*", "/", "-", "+", " to ", "="]
+const operations = [["("], [")"], ["^"], ["*"], ["/"], ["-"], ["+"], [" to "], ["="]]
 
 export class CalcError extends Error {
     constructor(message) {
@@ -32,16 +32,22 @@ export class Calculator {
         exp = this.tokenize(exp)
         exp = this.parse(exp)
         exp = this.bracketize(exp)
-        for(var o of operations) {
-            while(exp.includes(o))
-                exp = this.evaluate(exp, o)
+        for(var step of operations) {
+            if(step.some(e => exp.includes(e))) {
+                for(var op of step) {
+                    if(exp.includes(op)) {
+                        exp = this.evaluate(exp, op)
+                        break
+                    }
+                }
+            }
         }
         if(variableName) this.vars[variableName] = exp[0]
         return this.print(exp)
     }
 
     tokenize(line) {
-        var splits = [...operations]
+        var splits = [...operations.flat()]
         for(var char of splits)
             line = line.replaceAll(char, ';' + char + ';')
         line = line.split(';').map(e => e.trim())
@@ -55,7 +61,7 @@ export class Calculator {
     parse(tokens) {
         for(var t in tokens) {
             const tt = tokens[t]
-            if(operations.includes(tt))
+            if(operations.flat().includes(tt))
                 continue
             else if(this.vars[tt]) 
                 tokens[t] = this.vars[tt]                
@@ -85,10 +91,11 @@ export class Calculator {
             const tt = tokens[t]
             if(tt == op) {
                 var evaled = this.evaluateTwo([ tokens[t-1], tokens[t], tokens[t+1] ])
-                tokens[t-1] = ""
+                delete tokens[t-1]
                 tokens[t] = evaled
-                tokens[t+1] = ""
-                tokens = tokens.filter(e => e != "")
+                delete tokens[t+1]
+                tokens = tokens.filter(e => e != null)
+                return tokens
             }
         }
         return tokens

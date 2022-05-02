@@ -53,7 +53,7 @@ s.test('KG is kilogram',      '5 KG',             '5 kilogram')
 s.test('K is kelvin',         '5 K',              '5 kelvin')
 s.test('MPa is megapascal',   '2 MPa',            '2000000 pascal')
 s.test('brackets exist',      '(8)',              '8')
-s.test('brackets work',       '4 * (2 + 2)',      '16')
+s.test('brackets work',       '(2 + 4) * 4',      '24')
 
 s.summary()
 
