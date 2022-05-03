@@ -91,6 +91,7 @@ export const units = {
 	"J": [1, { ..._, "kg": 1, "m": 2, "s": -2 }],
 	"B": [8, { ..._, "b": 1 }],
 	"G": [0.001, { ..._, "kg": 1 }],
+	"L": [0.001, { ..._, "m": 3 }],
 
 	// SI must be listed first so reverseFactor finds them first - bad code?
 	"mile": [1609.344, { ..._, "m": 1 }],
@@ -124,7 +125,7 @@ export const reverseFactor = (derived) => {
 
 	// if not, make a derived name like m/s = (m^1 s^1)
 	var derivedName = ''
-	for (u in derived) {
+	for (var u in derived) {
 		if (derived[u] == 0) continue
 		derivedName += u + '^' + derived[u] + ' '
 	}

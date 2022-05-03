@@ -12,9 +12,7 @@ export class CalcError extends Error {
 
 export class Calculator {
     constructor(vars) {
-        this.vars = vars || {}
-        this.vars.g = new Factor(9.81, { m: 1, s: -2 })
-        this.vars.pi = new Factor(3.1415)
+        this.clearVars(vars)
     }
 
     doLine(exp) {
@@ -62,7 +60,6 @@ export class Calculator {
         return tokens
     }
 
-    // should finish this sooner rather than later
     bracketize(tokens) {
         while(tokens.includes('(')) {
             var open = tokens.indexOf('(')
@@ -84,17 +81,12 @@ export class Calculator {
             done = true
             for(var op of operations) {
                 for(var part of exp) {
-                    if(op.includes(part)) {
-                        // gross but 3 levels of loop is worse imo
-                        if(op[0] == part)
-                            exp = this.evaluateFirst(exp, op[0])
-                        else if(op[1] == part)
-                            exp = this.evaluateFirst(exp, op[1])
-                        else if(op[2] == part)
-                            exp = this.evaluateFirst(exp, op[0])
-
-                        done = false
-                        break
+                    if(!op.includes(part)) continue
+                    for(var opi of op) {
+                        if(part == opi) {
+                            done = false
+                            exp = this.evaluateFirst(exp, opi)
+                        }
                     }
                 }
             }
@@ -103,7 +95,6 @@ export class Calculator {
     }
 
     // go through PEMDAS and evaluate in order
-    // bug: division/multiplication and subtraction/additon are done in 2 steps
     evaluateFirst(tokens, op) {
         for(var t in tokens) {
             t = Number(t)
@@ -120,7 +111,7 @@ export class Calculator {
         return tokens
     }
     
-    // evaluate a simple expression like a + b, can be recursively applied for longer expressions, ((a + b) - c)
+    // evaluate a simple expression like a + b
     evaluateTwo(tokens) {
         if(tokens.length == 3) {
             if(tokens[1] == '*')
@@ -147,5 +138,15 @@ export class Calculator {
 
     print(result) {
         return result[0].print()
+    }
+
+    clearVars(vars, defaults = true) {
+        this.vars = vars || {}
+        if(defaults) {
+            this.vars.g = new Factor(9.81, { m: 1, s: -2 })
+            this.vars.c = new Factor(299792458, { m: 1, s: -1 })
+            this.vars.Na = new Factor(6.022140857e23, { mol: -1 })
+            this.vars.pi = new Factor(3.1415)
+        }
     }
 }
