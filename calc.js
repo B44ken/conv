@@ -67,13 +67,13 @@ export class Calculator {
         while(tokens.includes('(')) {
             var open = tokens.indexOf('(')
             var close = tokens.indexOf(')')
+            if(open == close+1) throw new CalcError('empty or unmatched brackets')
+
             var evaled = this.evaluate(tokens.slice(open + 1, close))
-            for(var i = open; i < close + 1; i++) {
-                delete tokens[i]
-            }
+            for(var i = open; i < close + 1; i++)
+                delete tokens[i] 
             tokens[open] = evaled[0]
             tokens = tokens.filter(e => e != null)
-            break
         }
         return tokens
     }
@@ -122,7 +122,6 @@ export class Calculator {
     
     // evaluate a simple expression like a + b, can be recursively applied for longer expressions, ((a + b) - c)
     evaluateTwo(tokens) {
-        if(tokens.includes('(') || tokens.includes(')')) return
         if(tokens.length == 3) {
             if(tokens[1] == '*')
                 var res = tokens[0].multiply(tokens[2])
@@ -130,7 +129,9 @@ export class Calculator {
                 var res = tokens[0].divide(tokens[2])
             else if(tokens[1] == '+') {
                 var res = tokens[0].add(tokens[2])
-                if(!res) throw new CalcError('error: different units, can\'t add/subtract')
+                if(!res) {
+                    throw new CalcError('error: different units, can\'t add/subtract')
+                }
             }
             else if(tokens[1] == '-') {
                 var res = tokens[0].subtract(tokens[2])

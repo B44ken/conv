@@ -1,24 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans&display=swap');
+
 body {
 	width: 100vw;
 	height: 100vh;
 	margin: 0;
 	background: #131621;
-	font-family: monospace;
+	font-family: 'DM Sans', sans-serif;
 	font-size: 20px;
 	color: #aaa;
 }
 
-a {
-	color: #aaa;
-}
+a { color: #aaa; }
 
-.tab {
-	display: none;
-}
+.tab { display: none; }
 
-::selection {
-	background: #5d3be3;
-}
+::selection { background: #5d3be3; }
 
 .container {
 	padding-top: 30vh;
@@ -33,17 +29,9 @@ a {
 	padding-bottom: 3px;
 	padding-top: 1em;
 }
-.input:focus {
-	outline: none
-}
 
-.selected {
-	display: none;
-}
-
+.input:focus, .selected { outline: none }
 
 @media (max-width: 540px) {
-	body {
-		font-size: 18px;
-	}
+	body { font-size: 18px; }
 }
