@@ -36,6 +36,7 @@ export class Factor {
 
         // corrections (hack?)
         if(exec[2] && exec[3] == undefined) {
+            if(exec[2] == "G") return new Factor(unit.number / 1000000000, {G: 1})
             if(exec[2] == "M") return new Factor(unit.number / 1000000, {m: 1})
             if(exec[2] == "K") return new Factor(unit.number / 1000, {K: 1})
         }
