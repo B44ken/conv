@@ -1,0 +1,20 @@
+{
+  "name": "conv",
+  "description": "conv is a functional, clean calculator that allows you to use units.\r try `12 watts / 5 volts` or `10 psi * 1 foot^2`.",
+  "version": "1.0.0",
+  "main": "cli.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/B44ken/conv.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/B44ken/conv/issues"
+  },
+  "homepage": "https://github.com/B44ken/conv#readme",
+  "type": "module"
+}
