@@ -62,8 +62,7 @@ export class Calculator {
 
     bracketize(tokens) {
         while(tokens.includes('(')) {
-            var open = tokens.indexOf('(')
-            var close = tokens.indexOf(')')
+            const [open, close] = this.findBrackets(tokens)
             if(open == close+1) throw new CalcError('empty or unmatched brackets')
 
             var evaled = this.evaluate(tokens.slice(open + 1, close))
@@ -73,6 +72,12 @@ export class Calculator {
             tokens = tokens.filter(e => e != null)
         }
         return tokens
+    }
+
+    findBrackets(tokens) {
+        let open = tokens.lastIndexOf('(')
+        let close = tokens.indexOf(')')
+        return [open, close]
     }
 
     evaluate(exp) {

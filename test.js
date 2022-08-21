@@ -38,7 +38,6 @@ class TestSuite {
 var s = new TestSuite()
 
 // s.test('error on purpose',    'garbage',          '')
-
 s.test('unit declaration',  '1 amp',       '1 amp')
 s.test('addition',          '1 + 1',       '2')
 s.test('multiplication',    '1 * 1',       '1')
@@ -54,6 +53,7 @@ s.test('K is kelvin',       '5 K',         '5 kelvin')
 s.test('MPa is megapascal', '2 MPa',       '2000000 pascal')
 s.test('brackets exist',    '(8)',         '8')
 s.test('brackets work',     '(2 + 4) * 4', '24')
+s.test('nested brackets',   '(((1)/2)*4)', '2') 
 s.test('unit cohesion',     'M*M + M*M',   '2 m^2')
 
 s.summary()
