@@ -47,13 +47,8 @@ const doInput = () => {
         output.innerHTML = res
     } catch(error) {
         if(error.name != "CalcError")
-<<<<<<< HEAD
             console.error(error)
         output.textContent = 'error: ' + error.message
-=======
-                error(error)
-        output.textContent = "error: " + error.message
->>>>>>> 817f37e (analytics)
     }
 }
 

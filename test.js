@@ -37,7 +37,6 @@ class TestSuite {
 
 let s = new TestSuite()
 
-<<<<<<< HEAD
 // s.test('error on purpose',    'garbage',          '')
 s.test('unit declaration',  '1 amp',       '1 amp')
 s.test('addition',          '1 + 1',       '2')
@@ -56,27 +55,6 @@ s.test('brackets exist',    '(8)',         '8')
 s.test('brackets work',     '(2 + 4) * 4', '24')
 s.test('nested brackets',   '(((1)/2)*4)', '2') 
 s.test('unit cohesion',     'M*M + M*M',   '2 m^2')
-=======
-// s.test("error on purpose",    "garbage",          "")
-
-s.test("unit declaration",  "1 amp",           "1 amp")
-s.test("addition",          "1 + 1",           "2")
-s.test("multiplication",    "1 * 1",           "1")
-s.test("power",             "2 ^ 3",           "8")
-s.test("imperial",          "1 mile",          "1609.344 meter")
-s.test("variable",          "var = 3",         "3")
-s.test("variable usage",    "var + 2",         "5")
-s.test("power of unit",     "1 meter^2",       "1 m^2")
-s.test("compounding units", "1 N / M^2",       "1 pascal")
-s.test("simple bedmas",     "2 + 4*2",         "10")
-s.test("KG is kilogram",    "5 KG",            "5 kilogram")
-s.test("K is kelvin",       "5 K",             "5 kelvin")
-s.test("MPa is megapascal", "2 MPa",           "2000000 pascal")
-s.test("brackets exist",    "(8)",             "8")
-s.test("brackets work",     "(2 + 4) * 4",     "24")
-s.test("bracket nesting",   "(((1) + 2) + 3)", "6")
-s.test("unit cohesion",     "M*M + M*M",       "2 m^2")
->>>>>>> 817f37e (analytics)
 
 s.summary()
 

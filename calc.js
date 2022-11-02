@@ -61,7 +61,6 @@ export class Calculator {
     }
 
     bracketize(tokens) {
-<<<<<<< HEAD
         while(tokens.includes('(')) {
             const [open, close] = this.findBrackets(tokens)
             if(open == close+1) throw new CalcError('empty or unmatched brackets')
@@ -71,29 +70,7 @@ export class Calculator {
                 delete tokens[i] 
             tokens[open] = evaled[0]
             tokens = tokens.filter(e => e != null)
-=======
-        console.log('in', tokens)
-        while(tokens.includes("(")) {
-            var opening = tokens.indexOf("(")
-            var closing = null
-            var depth = 0
-            for(var i = opening; i < tokens.length; i++) {
-                if(tokens[i] == "(") depth++
-                if(tokens[i] == ")") {
-                    depth--
-                    if(depth == 0) {
-                        closing = i
-                        break
-                    }
-                }
-            }
-            if(closing == null) throw new CalcError("no closing bracket")
-            var exp = tokens.slice(opening + 1, closing)
-            exp = this.evaluate(exp)
-            tokens.splice(opening, closing - opening + 1, ...exp)
->>>>>>> 817f37e (analytics)
         }
-        console.log('out', tokens)
         return tokens
     }
 
