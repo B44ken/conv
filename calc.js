@@ -16,8 +16,8 @@ export class Calculator {
     }
 
     doLine(exp) {
-        let equals = exp.split("=")
-        let variableName = ""
+        var equals = exp.split("=")
+        var variableName = ""
         if(equals[1]) {
             equals[0] = equals[0].trim()
             equals[1] = equals[1].trim()
@@ -36,8 +36,8 @@ export class Calculator {
     }
 
     tokenize(line) {
-        let splits = [...operations.flat()]
-        for(let char of splits)
+        var splits = [...operations.flat()]
+        for(var char of splits)
             line = line.replaceAll(char, ';' + char + ';')
         line = line.split(';').map(e => e.trim())
         if(line[line.length - 1] == "" && line[line.length - 2] != ")") 
@@ -48,7 +48,7 @@ export class Calculator {
     }
 
     parse(tokens) {
-        for(let t in tokens) {
+        for(var t in tokens) {
             const tt = tokens[t]
             if(operations.flat().includes(tt))
                 continue
@@ -66,8 +66,8 @@ export class Calculator {
             const [open, close] = this.findBrackets(tokens)
             if(open == close+1) throw new CalcError('empty or unmatched brackets')
 
-            let evaled = this.evaluate(tokens.slice(open + 1, close))
-            for(let i = open; i < close + 1; i++)
+            var evaled = this.evaluate(tokens.slice(open + 1, close))
+            for(var i = open; i < close + 1; i++)
                 delete tokens[i] 
             tokens[open] = evaled[0]
             tokens = tokens.filter(e => e != null)
@@ -104,13 +104,13 @@ export class Calculator {
     }
 
     evaluate(exp) {
-        let done = false
+        var done = false
         while(!done) {
             done = true
-            for(let op of operations) {
-                for(let part of exp) {
+            for(var op of operations) {
+                for(var part of exp) {
                     if(!op.includes(part)) continue
-                    for(let opi of op) {
+                    for(var opi of op) {
                         if(part == opi) {
                             done = false
                             exp = this.evaluateFirst(exp, opi)
@@ -124,11 +124,11 @@ export class Calculator {
 
     // go through PEMDAS and evaluate in order
     evaluateFirst(tokens, op) {
-        for(let t in tokens) {
+        for(var t in tokens) {
             t = Number(t)
             const tt = tokens[t]
             if(tt == op) {
-                let evaled = this.evaluateTwo([ tokens[t-1], tokens[t], tokens[t+1] ])
+                var evaled = this.evaluateTwo([ tokens[t-1], tokens[t], tokens[t+1] ])
                 delete tokens[t-1]
                 tokens[t] = evaled
                 delete tokens[t+1]
@@ -142,23 +142,22 @@ export class Calculator {
     // evaluate a simple expression like a + b
     evaluateTwo(tokens) {
         if(tokens.length == 3) {
-            let res = null
             if(tokens[1] == '*')
-                res = tokens[0].multiply(tokens[2])
+                var res = tokens[0].multiply(tokens[2])
             else if(tokens[1] == '/')
-                res = tokens[0].divide(tokens[2])
+                var res = tokens[0].divide(tokens[2])
             else if(tokens[1] == '+') {
-                res = tokens[0].add(tokens[2])
+                var res = tokens[0].add(tokens[2])
                 if(!res) {
                     throw new CalcError('error: different units, can\'t add/subtract')
                 }
             }
             else if(tokens[1] == '-') {
-                res = tokens[0].subtract(tokens[2])
+                var res = tokens[0].subtract(tokens[2])
                 if(!res) throw new CalcError('error: different units, can\'t add/subtract')
             }
             else if(tokens[1] == '^')
-                res = tokens[0].exponent(tokens[2])
+                var res = tokens[0].exponent(tokens[2])
 
             if(!res) throw new CalcError('result is null')
             return res

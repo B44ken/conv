@@ -38,9 +38,9 @@ export const prefixes = {
 }
 
 const unit = (derived, scale = 1) => {
-	let unitObject = { ..._, SCALE: scale }
+	var unitObject = { ..._, SCALE: scale }
 	for (const part of derived.split(" ")) {
-		let [name, amount] = part.split('^')
+		var [name, amount] = part.split('^')
 		if (amount) amount = parseInt(amount)
 		else amount = 1
 		unitObject[name] = amount
@@ -117,15 +117,15 @@ export const units = {
 // take a derivation like { m: 1 } and turn it into a unit name like 'meter'
 export const reverseFactor = (derived) => {
 	// loop through existing names (meter, volt, etc.)
-	for (let u in units) {
+	for (var u in units) {
 		if (JSON.stringify(units[u][1]) == JSON.stringify(derived) && u != '_') {
 			return u
 		}
 	}
 
 	// if not, make a derived name like m/s = (m^1 s^1)
-	let derivedName = ''
-	for (let u in derived) {
+	var derivedName = ''
+	for (var u in derived) {
 		if (derived[u] == 0) continue
 		derivedName += u + '^' + derived[u] + ' '
 	}

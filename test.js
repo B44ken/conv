@@ -10,7 +10,7 @@ class TestSuite {
     }
     test(name, input, expected) {
         try {
-            let result = this.calc.doLine(input).trim()
+            var result = this.calc.doLine(input).trim()
             if(result == expected) {
                 this.results[name] = { input, expected, result, error: null }
             } else {
@@ -21,7 +21,7 @@ class TestSuite {
         }
     }
     summary() {
-        let bad = {}
+        var bad = {}
         for(const key of Object.keys(this.results)) {
             const item = this.results[key]
             if(item.error) bad[key] = item
@@ -35,7 +35,7 @@ class TestSuite {
     }
 }
 
-let s = new TestSuite()
+var s = new TestSuite()
 
 <<<<<<< HEAD
 // s.test('error on purpose',    'garbage',          '')
@@ -44,8 +44,8 @@ s.test('addition',          '1 + 1',       '2')
 s.test('multiplication',    '1 * 1',       '1')
 s.test('power',             '2 ^ 3',       '8')
 s.test('imperial',          '1 mile',      '1609.344 meter')
-s.test('variable',          'let = 3',     '3')
-s.test('variable usage',    'let + 2',     '5')
+s.test('variable',          'var = 3',     '3')
+s.test('variable usage',    'var + 2',     '5')
 s.test('power of unit',     '1 meter^2',   '1 m^2')
 s.test('compounding units', '1 N / M^2',   '1 pascal')
 s.test('simple bedmas',     '2 + 4*2',     '10')

@@ -3,7 +3,7 @@ import { Calculator, CalcError } from './calc.js'
 
 const calc = new Calculator({ 'precision': 1e-5 })
 
-let settings = {
+var settings = {
     precision: 1e-5,
     properSigFigs: false
 }
