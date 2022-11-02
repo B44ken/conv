@@ -12,7 +12,7 @@ window.calc = new Calculator({ 'precision': 1e-5 })
 const input = document.querySelector('.input')
 const output = document.querySelector('.output')
 
-var currentSelected = null
+let currentSelected = null
 const manageTab = name => {
     const button = document.getElementsByClassName(name + '-button')[0]
     const content = document.getElementsByClassName(name + '-tab')[0]
@@ -27,7 +27,7 @@ manageTab('settings')
 manageTab('formulas')
 manageTab('close')
 
-var settings = {
+let settings = {
     precision: 1e-5,
     properSigFigs: false
 }
@@ -39,8 +39,8 @@ document.getElementById("settings-proper").addEventListener("change", event => {
 const doInput = () => {
     calc = new Calculator(settings)
     try {
-        var res = ""
-        var cleanInput = input.innerText.split('\n').filter(e=> e != '')
+        let res = ""
+        let cleanInput = input.innerText.split('\n').filter(e=> e != '')
         for(const line of cleanInput) {
             res += calc.doLine(line) + '<br>'
         }
@@ -59,6 +59,6 @@ const doInput = () => {
 
 document.addEventListener('keyup', doInput)
 
-var search = decodeURI(document.location.search).replace('?', '').replaceAll(':','\n')
+let search = decodeURI(document.location.search).replace('?', '').replaceAll(':','\n')
 if(search) input.innerText = search
 doInput()
